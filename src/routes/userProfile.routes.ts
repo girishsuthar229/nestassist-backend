@@ -27,6 +27,7 @@ router.get(
   verifyJWT,
   checkActiveUser,
   authorizeRoles(
+    UserRole.CUSTOMER,
     UserRole.ADMIN,
     UserRole.SUPER_ADMIN,
     UserRole.SERVICE_PARTNER

@@ -50,6 +50,9 @@ export const getMyProfile = async (
     is_super_admin: user?.role?.name === UserRole.SUPER_ADMIN,
   };
 
+  if(role === UserRole.CUSTOMER){
+    return baseProfile;
+  }
   if ([UserRole.ADMIN, UserRole.SUPER_ADMIN].includes(role as UserRole)) {
     return {
       ...baseProfile,

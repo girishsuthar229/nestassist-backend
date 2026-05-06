@@ -55,9 +55,10 @@ export const findUserByEmail = async (email: string): Promise<User | null> => {
  * Fetches a user by their id identifier (ID).
  * @access Public
  */
-export const findCustomerById = async (id: number): Promise<User | null> => {
+export const findCustomerById = async (id: number) => {
   return await User.findOne({
-    where: { id, role: "customer" },
+    where: { id},
+    include: [{ model: Role, as: "role", attributes: ["name"] }],
     attributes: ["id", "name", "email", "emailVerifiedAt"],
   });
 };

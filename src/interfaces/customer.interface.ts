@@ -17,6 +17,7 @@ export interface CustomerUserData {
   name: string;
   email: string;
   is_verified: boolean;
+  role:string | null;
 }
 
 export interface VerifyOtpResult {

@@ -14,6 +14,7 @@ import { CustomerUserData, ResendOtpInput, SendOtpInput, SendOtpResult, VerifyOt
 import { MESSAGES } from "@/constants/messages";
 import { STATUS_CODE } from "@/enums";
 import * as AuthRepository from "../repositories/auth.repository";
+import { UserRole } from "@/enums/userRole.enum";
 
 // ─────────────────────────────────────────────
 // 0) Rate Limit Helper
@@ -128,7 +129,7 @@ export const verifyOtp = async (
     user = await User.create({
       name: otpRecord.name,
       email,
-      role: "customer",
+      roleId: 3,
       isActive: true,
       emailVerifiedAt: new Date(),
       password: "",
@@ -149,6 +150,7 @@ export const verifyOtp = async (
       name: user.name,
       email: user.email,
       is_verified: !!user.emailVerifiedAt,
+      role: UserRole.CUSTOMER
     },
     token,
     token_type: "Bearer",
@@ -224,5 +226,6 @@ export const getCustomerById = async (
     name: user.name,
     email: user.email,
     is_verified: !!user.emailVerifiedAt,
+    role: user.role?.name || null,
   };
 };
