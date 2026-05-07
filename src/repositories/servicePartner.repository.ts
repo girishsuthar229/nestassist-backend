@@ -44,6 +44,20 @@ import { Op } from "sequelize";
   export const createUser = async (data: any, transaction?: Transaction) => {
     return await User.create(data, { transaction });
   };
+
+  /**
+   * @name findUserByEmail
+   * @description
+   * Fetches a user by their email address.
+   * @access Private
+   */
+  export const findUserByEmail = async (email: string, transaction?: Transaction) => {
+    return await User.findOne({
+      where: { email: email.toLowerCase().trim() },
+      transaction
+    });
+  };
+
   
   /**
    * @name createServicePartner

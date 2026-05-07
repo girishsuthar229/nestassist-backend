@@ -21,6 +21,7 @@ import authRoutes from "./auth.routes";
 import loggerRoutes from "./logger.routes";
 import roleRoutes from "./role.routes";
 import offerRoutes from "./offer.routes";
+import customerProfileRoutes from "./customerProfile.routes";
 
 const router = Router();
 
@@ -50,6 +51,7 @@ router.use("/admin-bookings", adminBookingManagementRoutes);
 router.use("/bookings", bookingRoutes);
 router.use("/log", loggerRoutes);
 router.use("/roles", roleRoutes);
+router.use("/customer/profile", customerProfileRoutes);
 
 // ── Customer-facing auth routes ──────────────────────────────────────────────
 router.use("/v1/customer", customerAuthRoutes);

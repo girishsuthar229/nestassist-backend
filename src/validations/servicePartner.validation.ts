@@ -1,6 +1,7 @@
 import Joi from "joi";
-import { ApprovalAction, Gender, ProfileUpdateType } from "../enums/servicePartner.enum";
+import { ApprovalAction, Gender, ProfileUpdateType, CustomerProfileUpdateType } from "../enums/servicePartner.enum";
 import { UserRole } from "@/enums/userRole.enum";
+
 
 export const registerPartnerValidation = Joi.object({
   profileImage: Joi.any().optional(),
@@ -352,5 +353,69 @@ export const updateProfileValidation = Joi.object({
       "array.base": "Subcategories must be an array",
       "array.min": "Select at least one subcategory",
       "any.unknown": "Subcategories are not allowed for this update type",
+    }),
+});
+
+export const changeMobileValidation = Joi.object({
+  mobile_number: Joi.string()
+    .pattern(/^[0-9]{10}$/)
+    .required()
+    .messages({
+      "any.required": "Mobile number is required",
+      "string.empty": "Mobile number is required",
+      "string.pattern.base": "Mobile number must be exactly 10 digits",
+    }),
+});
+
+export const changeEmailValidation = Joi.object({
+  email: Joi.string()
+    .email()
+    .required()
+    .messages({
+      "any.required": "Email is required",
+      "string.empty": "Email cannot be empty",
+      "string.email": "Please enter a valid email address",
+    }),
+});
+
+export const saveAddressValidation = Joi.object({
+  address: Joi.object({
+    id: Joi.number().integer().allow(null).optional(),
+    label: Joi.string().required().messages({
+      "any.required": "Label is required",
+    }),
+    houseFlatNumber: Joi.string().required().messages({
+      "any.required": "House/Flat number is required",
+    }),
+    landmark: Joi.string().allow("", null).optional(),
+    address: Joi.string().required().messages({
+      "any.required": "Address is required",
+    }),
+    latitude: Joi.alternatives().try(Joi.number(), Joi.string()).allow(null).optional(),
+    longitude: Joi.alternatives().try(Joi.number(), Joi.string()).allow(null).optional(),
+    customLabel: Joi.string().allow("", null).optional(),
+  })
+    .required()
+    .messages({
+      "any.required": "Address information is required",
+    }),
+});
+
+export const verifyEmailUpdateValidation = Joi.object({
+  email: Joi.string()
+    .email()
+    .required()
+    .messages({
+      "any.required": "Email is required",
+      "string.email": "Please enter a valid email address",
+    }),
+  otp: Joi.string()
+    .min(4)
+    .max(4)
+    .required()
+    .messages({
+      "any.required": "OTP is required",
+      "string.min": "OTP must be 4 digits",
+      "string.max": "OTP must be 4 digits",
     }),
 });

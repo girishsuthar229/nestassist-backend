@@ -1,5 +1,6 @@
 import { BookingStatus } from "@/enums/transaction.enum";
-import { Gender, Proficiency, ProfileUpdateType } from "../enums/servicePartner.enum";
+import { Gender, Proficiency, ProfileUpdateType, CustomerProfileUpdateType } from "../enums/servicePartner.enum";
+
 
 export interface IPartnerEducation {
   id?: number;
@@ -85,6 +86,18 @@ export interface ProfileImageResponse {
   thumbnail: string | null;
   public_id: string | null;
 }
+export interface IAddress {
+  id: number;
+  label: string;
+  custom_label: string | null;
+  display_label: string;
+  house_flat_number: string;
+  landmark: string;
+  address: string;
+  latitude: number;
+  longitude: number;
+  full_address: string;
+}
 
 export interface ProfileResponse {
   id: string | number;
@@ -101,6 +114,8 @@ export interface ProfileResponse {
   servicetypes?: { id: number; name: string }[] ;
   categories?: { id: number; name: string }[];
   subcategories?: { id: number; name: string }[];
+  is_active?: boolean;
+  addresses?: IAddress[];
 }
 
 export interface UpdateContactPayload {
@@ -136,3 +151,33 @@ export type UpdateMyProfilePayload =
   | UpdatePasswordPayload
   | UpdateImagePayload
   | UpdateServicesPayload;
+
+export interface UpdateCustomerContactPayload {
+  type: CustomerProfileUpdateType.MOBILE;
+  mobile: string;
+}
+
+export interface UpdateCustomerEmailPayload {
+  type: CustomerProfileUpdateType.EMAIL;
+  email: string;
+}
+
+export interface UpdateCustomerAddressPayload {
+  type: CustomerProfileUpdateType.ADDRESS;
+  address: {
+    id?: number | null;
+    label: string;
+    houseFlatNumber: string;
+    landmark?: string | null;
+    address: string;
+    latitude?: string | number | null;
+    longitude?: string | number | null;
+    customLabel?: string | null;
+  };
+}
+
+export type UpdateCustomerProfilePayload =
+  | UpdateCustomerContactPayload
+  | UpdateCustomerEmailPayload
+  | UpdateCustomerAddressPayload;
+

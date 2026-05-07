@@ -41,3 +41,9 @@ export enum ProfileUpdateType {
   IMAGE = "image",
   SERVICES = "services"
 }
+
+export enum CustomerProfileUpdateType {
+  MOBILE = "mobile",
+  EMAIL = "email",
+  ADDRESS = "address"
+}

@@ -21,6 +21,8 @@ import Payment from "./payment.model";
 import CustomerOtp from "./customerOtp.model";
 import Log from "./log.model";
 import Role from "./role.model";
+import RecentSearch from "./recentSearch.model";
+
 
 // One Service → Many Bookings
 Service.hasMany(Booking, { foreignKey: "service_id", as: "bookings" });
@@ -159,6 +161,11 @@ Payment.belongsTo(Service, { foreignKey: "service_id", as: "service" });
 User.hasMany(Log, { foreignKey: "user_id", as: "logs" });
 Log.belongsTo(User, { foreignKey: "user_id", as: "user" });
 
+// RecentSearch Associations
+User.hasMany(RecentSearch, { foreignKey: "userId", as: "recentSearches" });
+RecentSearch.belongsTo(User, { foreignKey: "userId", as: "user" });
+
+
 Service.hasMany(Log, { foreignKey: "service_id", as: "logs" });
 Log.belongsTo(Service, { foreignKey: "service_id", as: "service" });
 
@@ -192,4 +199,6 @@ export {
   CustomerOtp,
   Log,
   Role,
+  RecentSearch,
 };
+

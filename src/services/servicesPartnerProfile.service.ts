@@ -1,6 +1,7 @@
-import { ProfileUpdateType } from "@/enums/servicePartner.enum";
+import { ProfileUpdateType, CustomerProfileUpdateType } from "@/enums/servicePartner.enum";
 import { UserRole } from "@/enums/userRole.enum";
 import * as servicePartnerRepository from "../repositories/servicePartner.repository";
+import * as addressRepository from "../repositories/address.repository";
 import { STATUS_CODE } from "@/enums";
 import { ApiError } from "@/utils/apiError.util";
 import { MESSAGES } from "@/constants/messages";
@@ -50,8 +51,24 @@ export const getMyProfile = async (
     is_super_admin: user?.role?.name === UserRole.SUPER_ADMIN,
   };
 
-  if(role === UserRole.CUSTOMER){
-    return baseProfile;
+  if (role === UserRole.CUSTOMER) {
+    const addresses = await addressRepository.findAddressesByUserId(userId);
+    return {
+      ...baseProfile,
+      is_active: user?.isActive,
+      addresses: addresses.map((addr: any) => ({
+        id: addr.id,
+        label: addr.label,
+        custom_label: addr.customLabel,
+        display_label: addr.label === "Others" ? addr.customLabel : addr.label,
+        house_flat_number: addr.houseFlatNumber,
+        landmark: addr.landmark,
+        address: addr.address,
+        latitude: parseFloat(addr.latitude),
+        longitude: parseFloat(addr.longitude),
+        full_address: `${addr.houseFlatNumber}, ${addr.landmark ? addr.landmark + ", " : ""}${addr.address}`,
+      })),
+    };
   }
   if ([UserRole.ADMIN, UserRole.SUPER_ADMIN].includes(role as UserRole)) {
     return {
