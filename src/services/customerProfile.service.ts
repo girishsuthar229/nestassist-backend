@@ -9,6 +9,7 @@ import * as recentSearchRepository from "../repositories/recentSearch.repository
 import { ApiError } from "@/utils/apiError.util";
 import { STATUS_CODE } from "@/enums";
 import { MESSAGES } from "@/constants/messages";
+import { IAddress } from "@/interfaces/servicePartner.interface";
 
 /**
  * @name changeMobile
@@ -123,7 +124,20 @@ export const saveAddress = async (userId: number, addressData: any) => {
  * @description Fetches all addresses for a customer
  */
 export const getUserAddresses = async (userId: number) => {
-  return await addressRepository.findAddressesByUserId(userId);
+  const addresses = await addressRepository.findAddressesByUserId(userId);
+  const userAddresses :IAddress[]= addresses.map((addr: any) => ({
+    id: addr.id,
+    label: addr.label,
+    custom_label: addr.customLabel || "",
+    display_label: addr.label === "Others" ? addr.customLabel || "" : addr.label || "",
+    house_flat_number: addr.houseFlatNumber,
+    landmark: addr.landmark || "",
+    address: addr.address,
+    latitude: parseFloat(addr.latitude || ""),
+    longitude: parseFloat(addr.longitude),
+    full_address: `${addr.houseFlatNumber}, ${addr.landmark ? addr.landmark + ", " : ""}${addr.address}`,
+  }))
+  return userAddresses;
 };
 
 /**
