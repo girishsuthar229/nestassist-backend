@@ -425,9 +425,8 @@ export const syncServicePartnerSubcategories = async (
   subcategoryIds: number[],
   transaction?: Transaction
 ) => {
-  const data = subcategoryIds.map((id) => ({ partnerId, subcategoryId: id }));
-
-  return await SubCategory.bulkCreate(data, { transaction });
+  const data = subcategoryIds.map((id) => ({ partnerId, subCategoryId: id }));
+  return await ServicePartnerService.bulkCreate(data, { transaction });
 };
 
 /**
