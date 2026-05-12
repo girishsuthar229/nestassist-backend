@@ -95,23 +95,20 @@ export const verifyEmailUpdate = async (userId: number, email: string, otp: stri
   return { success: true };
 };
 
+import { ISaveAddress } from "@/interfaces/servicePartner.interface";
+
 /**
  * @name saveAddress
  * @description Creates or updates a customer address
  */
-export const saveAddress = async (userId: number, addressData: any) => {
+export const saveAddress = async (userId: number, addressData: ISaveAddress) => {
   const user = await servicePartnerRepository.findUserById(userId);
   if (!user) {
     throw new ApiError(STATUS_CODE.NOT_FOUND, MESSAGES.USER.NOT_FOUND);
   }
-
-  const data = {
-    ...addressData,
-    userId: userId,
-  };
-
-  if (data.id) {
-    await addressRepository.updateAddress(data.id, data);
+  const data = { userId: userId, ...addressData };
+  if (addressData.id) {
+    await addressRepository.updateAddress(addressData.id, data);
   } else {
     await addressRepository.createAddress(data);
   }

@@ -181,3 +181,17 @@ export type UpdateCustomerProfilePayload =
   | UpdateCustomerEmailPayload
   | UpdateCustomerAddressPayload;
 
+export interface ISaveAddress {
+  id?: number;
+  label: string;
+  custom_label?: string | null;
+  house_flat_number: string;
+  landmark?: string | null;
+  address: string;
+  latitude: number | string;
+  longitude: number | string;
+  city?: string | null;
+  state?: string | null;
+  country?: string | null;
+  postcode?: string | null;
+}

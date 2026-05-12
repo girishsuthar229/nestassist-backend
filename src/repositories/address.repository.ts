@@ -1,4 +1,5 @@
 import { Address } from "@/models";
+import { AddressCreationAttributes } from "@/models/address.model";
 import { Transaction } from "sequelize";
 
 /**
@@ -16,15 +17,15 @@ export const findAddressesByUserId = async (userId: number, transaction?: Transa
  * @name createAddress
  * @description Create a new address
  */
-export const createAddress = async (data: any, transaction?: Transaction) => {
-  return await Address.create(data, { transaction });
+export const createAddress = async (data: Partial<Address>, transaction?: Transaction) => {
+  return await Address.create(data as AddressCreationAttributes, { transaction });
 };
 
 /**
  * @name updateAddress
  * @description Update an existing address
  */
-export const updateAddress = async (addressId: number, data: any, transaction?: Transaction) => {
+export const updateAddress = async (addressId: number, data: Partial<Address>, transaction?: Transaction) => {
   return await Address.update(data, {
     where: { id: addressId },
     transaction,

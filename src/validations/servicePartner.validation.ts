@@ -379,26 +379,30 @@ export const changeEmailValidation = Joi.object({
 });
 
 export const saveAddressValidation = Joi.object({
-  address: Joi.object({
-    id: Joi.number().integer().allow(null).optional(),
-    label: Joi.string().required().messages({
-      "any.required": "Label is required",
-    }),
-    houseFlatNumber: Joi.string().required().messages({
-      "any.required": "House/Flat number is required",
-    }),
-    landmark: Joi.string().allow("", null).optional(),
-    address: Joi.string().required().messages({
-      "any.required": "Address is required",
-    }),
-    latitude: Joi.alternatives().try(Joi.number(), Joi.string()).allow(null).optional(),
-    longitude: Joi.alternatives().try(Joi.number(), Joi.string()).allow(null).optional(),
-    customLabel: Joi.string().allow("", null).optional(),
-  })
-    .required()
-    .messages({
-      "any.required": "Address information is required",
-    }),
+  id: Joi.number().integer().allow(null).optional(),
+  label: Joi.string().required().messages({
+    "any.required": "Label is required",
+  }),
+  house_flat_number: Joi.string().required().messages({
+    "any.required": "House/Flat number is required",
+  }),
+  landmark: Joi.string().allow("", null).optional(),
+  address: Joi.string().required().messages({
+    "any.required": "Address is required",
+  }),
+  latitude: Joi.alternatives()
+    .try(Joi.number(), Joi.string())
+    .allow(null)
+    .optional(),
+  longitude: Joi.alternatives()
+    .try(Joi.number(), Joi.string())
+    .allow(null)
+    .optional(),
+  custom_label: Joi.string().allow("", null).optional(),
+  city: Joi.string().allow("", null).optional(),
+  state: Joi.string().allow("", null).optional(),
+  country: Joi.string().allow("", null).optional(),
+  postcode: Joi.string().allow("", null).optional(),
 });
 
 export const verifyEmailUpdateValidation = Joi.object({
