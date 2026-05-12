@@ -1,30 +1,21 @@
-require('dotenv').config();
-const sslConfig = {
-  require: true,
-  rejectUnauthorized: false
-};
- 
-module.exports = {
-  development: {
-    username: process.env.DB_USER,
-    password: process.env.DB_PASSWORD || process.env.DB_PASS,
-    database: process.env.DB_NAME,
+const { Sequelize } = require('sequelize');
+
+const sequelize = new Sequelize(
+  process.env.DB_NAME,
+  process.env.DB_USER,
+  process.env.DB_PASSWORD,
+  {
     host: process.env.DB_HOST,
     port: process.env.DB_PORT,
     dialect: 'postgres',
+    logging: false,
     dialectOptions: {
-      ssl: sslConfig
-    }
-  },
-  production: {
-    username: process.env.DB_USER,
-    password: process.env.DB_PASSWORD || process.env.DB_PASS,
-    database: process.env.DB_NAME,
-    host: process.env.DB_HOST,
-    port: process.env.DB_PORT,
-    dialect: 'postgres',
-    dialectOptions: {
-      ssl: sslConfig
+      ssl: {
+        require: true,
+        rejectUnauthorized: false
+      }
     }
   }
-};
+);
+
+module.exports = sequelize;
