@@ -19,22 +19,7 @@ app.use("/api/webhook", stripeWebhookRoutes);
 app.use("/api/webhook", razorpayWebhookRoutes);
 app.use(express.json());       // Parse JSON body
 app.use(express.urlencoded({ extended: true })); // Parse URL-encoded bodies
-const allowedOrigins = [
-  "http://localhost:5173",
-  "http://localhost:3000",
-  /\.vercel\.app$/, // Allow all Vercel deployments
-];
-
-app.use(cors({
-  origin: (origin, callback) => {
-    if (!origin || allowedOrigins.some(o => typeof o === 'string' ? o === origin : o.test(origin))) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
-  credentials: true,
-}));               // Enable Cross-Origin Resource Sharing
+app.use(cors());               // Enable Cross-Origin Resource Sharing
 app.use(helmet());             // Secure HTTP headers
 app.use(compression());        // Compress response bodies
 app.use((req, res, next) => {
